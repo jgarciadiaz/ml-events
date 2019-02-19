@@ -1,0 +1,21 @@
+{
+  "name": "ml-js",
+  "version": "1.0.0",
+  "main": "./src",
+  "repository": {},
+  "license": "MIT",
+  "dependencies": {
+    "convict": "^4.0.2",
+    "limdu": "^0.9.3",
+    "mongoose": "^5.0.3"
+  },
+  "scripts": {
+    "start": "node ./src",
+    "docker:build": "docker build -t jgarciadiaz/ml-events .",
+    "docker:run": "docker run -e 'DB_URL=mongodb://mongo/events' --name ml-events --link mongodb:mongo -d jgarciadiaz/ml-events",
+    "docker:push": "docker push jgarciadiaz/ml-events",
+    "docker:pull": "docker pull jgarciadiaz/ml-events",
+    "docker:start": "docker restart ml-events",
+    "docker:log": "docker logs ml-events"
+  }
+}
