@@ -5,14 +5,13 @@ const config = require('./config')
 
 openDatabase(config.get('db.url'))
   .then(() => {
-		listEvents().then(events => {
-			const eventML = new EventML()
-			eventML.run()
-			const defaultScore = 0
+		const eventML = new EventML()
+		eventML.run()
 
+		listEvents().then(events => {
 			const promises = events.map(event => {
 				const prediction = eventML.getPrediction(event.description)
-				event.score = parseInt(prediction[0] || defaultScore)
+				event.score = parseInt(prediction[0])
 				return event.save()
 			})
 

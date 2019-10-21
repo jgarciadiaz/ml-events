@@ -2,6 +2,13 @@ const limdu = require('limdu')
 
 const traineData = require('../../data/trainedData.json')
 
+function getCleanData(data) {
+  return data.map(item => ({
+    input: item.description,
+    output: item.score
+  }))
+}
+
 class EventML {
 
   constructor() {
@@ -24,29 +31,23 @@ class EventML {
     // Initialize a classifier with the base classifier type and the feature extractor:
     this.classifier = new limdu.classifiers.EnhancedClassifier({
       classifierType: TextClassifier,
+      normalizer: limdu.features.LowerCaseNormalizer,
       featureExtractor: WordExtractor
     })
   }
   
-  getCleanData(data) {
-    return data.map(item => ({
-      input: item.description,
-      output: item.score
-    }))
-  }
-  
-  trainModel(cleanData) {
-    this.classifier.trainBatch(cleanData)
+  trainModel(cleanedData) {
+    this.classifier.trainBatch(cleanedData)
   }
 
   run() {
     this.setClassifier()
-    const cleanData = this.getCleanData(traineData)
-    this.trainModel(cleanData)
+    const cleanedData = getCleanData(traineData)
+    this.trainModel(cleanedData)
   }
 
   getPrediction(guess) {
-    return this.classifier ? this.classifier.classify(guess) : 'model needs to be trained'
+    return this.classifier.classify(guess)
   }
 }
 
