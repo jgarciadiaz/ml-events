@@ -5,7 +5,7 @@
   "repository": {},
   "license": "MIT",
   "dependencies": {
-    "convict": "^4.0.2",
+    "convict": "^6.2.4",
     "limdu": "^0.9.3",
     "mongoose": "^5.0.3"
   },
